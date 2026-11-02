@@ -214,7 +214,7 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
 
 /* ---------- Scene 3: courtyard ---------- */
 .yard{background:#04030a}
-.yard-sec{height:100svh;min-height:540px;display:block}
+.yard-sec{height:100vh;height:100svh;min-height:540px;display:block}
 .yard canvas#sky{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:crosshair}
 .topbar{position:absolute;top:0;left:0;right:0;z-index:3;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding-top:calc(12px + env(safe-area-inset-top,0px));padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:calc(max(12px,env(safe-area-inset-right,0px)) + 52px);pointer-events:none}
 .topbar>*{pointer-events:auto}
@@ -285,8 +285,8 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
 .panel-card{background:linear-gradient(160deg,rgba(30,10,40,.78),rgba(20,8,30,.72) 50%,rgba(30,10,30,.78))}
 
 .main{scroll-snap-type:y proximity;background:linear-gradient(#0d0818,#170a1c 40%,#120810)}
-.sec{position:relative;min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-.hero-sec{height:100svh;justify-content:flex-start}
+.sec{position:relative;min-height:100vh;min-height:100svh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hero-sec{height:100vh;height:100svh;justify-content:flex-start}
 .hero-sec .hero{position:relative;z-index:1;padding-top:clamp(56px,9vh,96px);padding-inline:16px}
 .msg-sec{background:radial-gradient(ellipse 80% 45% at 50% 0%,rgba(140,50,120,.35),transparent 70%),radial-gradient(ellipse 70% 40% at 50% 105%,rgba(255,130,40,.2),transparent 70%),linear-gradient(180deg,#120818,#1d0a22)}
 .msg-sec .wrap,.days-sec .wrap{padding-block:72px}
@@ -942,12 +942,16 @@ function makeLive(cv, kind){
 }
 const lives = [makeLive($('#liveWish'), 'puja'), makeLive($('#liveBless'), 'party')];
 const liveVis = [false, false];
-const io = new IntersectionObserver(es => es.forEach(e => { const i = e.target.id === 's-hero' ? 0 : 1; liveVis[i] = e.isIntersecting; (e.isIntersecting && current === 'p-main') ? lives[i].start() : lives[i].stop(); }), { threshold: .05 });
-io.observe($('#s-hero')); io.observe($('#s-party'));
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => { const i = e.target.id === 's-hero' ? 0 : 1; liveVis[i] = e.isIntersecting; (e.isIntersecting && current === 'p-main') ? lives[i].start() : lives[i].stop(); }), { threshold: .05 }) : null;
+if (io) { io.observe($('#s-hero')); io.observe($('#s-party')); } else lives.forEach(l => l.start());
 let yardVis = false;
-new IntersectionObserver(es => es.forEach(e => { yardVis = e.isIntersecting; if (current !== 'p-main') return; if (yardVis) { yard.start(); sfx.amb(.45, 20000); } else { yard.stop(); sfx.amb(.14, 1400); } }), { threshold: .15 }).observe($('#s-yard'));
+function checkYard(){ try { if (current !== 'p-main') return; const r = $('#s-yard').getBoundingClientRect(), vh = innerHeight || document.documentElement.clientHeight;
+  const vis = r.bottom > vh * .15 && r.top < vh * .85; if (vis !== yardVis || (vis && !yard.on)) { yardVis = vis; if (vis) { yard.start(); sfx.amb(.45, 20000); } else { yard.stop(); sfx.amb(.14, 1400); } } } catch (er) {} }
+$('#p-main').addEventListener('scroll', checkYard, { passive: true }); addEventListener('resize', checkYard);
+if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { yardVis = e.isIntersecting; if (current !== 'p-main') return; if (yardVis) { yard.start(); sfx.amb(.45, 20000); } else { yard.stop(); sfx.amb(.14, 1400); } }), { threshold: .15 }).observe($('#s-yard'));
 (function dots(){ const nav = $('#dots'); const secs = [...$$('#p-main .sec')];
   secs.forEach(sec => { const b = document.createElement('button'); b.dataset.label = sec.dataset.name; b.setAttribute('aria-label', sec.dataset.name); b.onclick = () => sec.scrollIntoView({ behavior: 'smooth' }); nav.appendChild(b); });
+  if (!('IntersectionObserver' in window)) return;
   const io2 = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const i = secs.indexOf(e.target); [...nav.children].forEach((b, j) => b.setAttribute('aria-current', i === j)); } }), { threshold: .5 });
   secs.forEach(x => io2.observe(x)); })();
 $$('.lanterns').forEach(el => { let h = ''; for (let i = 0; i < 14; i++) { const d = R(18, 34), far = Math.random() < .4;
