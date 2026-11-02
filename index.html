@@ -318,10 +318,9 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
 .item .lbl b{display:block;color:var(--gold-hi);font-size:14px;font-weight:600}
 .item.next::before,.diya-line.next::before{content:"";position:absolute;inset:-2px;border-radius:20px;box-shadow:0 0 0 2px var(--gold),0 0 22px rgba(242,196,109,.5);animation:breath 1.6s ease-in-out infinite;pointer-events:none}
 @keyframes breath{50%{opacity:.35}}
-.item.bell{right:6%;top:17%;width:11%}
-.item.prasad{left:5%;top:20%;width:16%}
-.item.flowers{left:4%;top:52%;width:17%}
-.item.thali{right:4%;top:55%;width:17%}
+.item.bell{left:7%;top:17%;width:11%}
+.item.flowers{left:4%;top:44%;width:18%}
+.item.thali{right:4%;top:44%;width:18%}
 .item.thali .flm{position:absolute;left:50%;top:6%;width:9px;height:20px;margin-left:-4.5px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 78%,#fff 0 16%,#ffe58a 34%,#ff9a1f 62%,rgba(255,80,0,0));filter:drop-shadow(0 0 10px #ffb347);animation:flick .16s infinite alternate}
 .item.bell.ring svg{animation:bellsw .28s ease-in-out 6 alternate;transform-origin:50% 4%}
 @keyframes bellsw{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
@@ -369,12 +368,24 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
 .dots button::after{content:attr(data-label);position:absolute;right:18px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:12px;padding:4px 10px;border-radius:999px;background:var(--glass-2);opacity:0;transition:opacity .2s;pointer-events:none}
 .dots button:hover::after{opacity:1}
 @media (max-width:900px){.share-grid{grid-template-columns:1fr 1fr}}
-@media (max-width:700px){.checklist{grid-template-columns:1fr 1fr}.stage{aspect-ratio:3/4}.item.thali,.item.flowers{width:24%}.item.prasad{width:22%}.item.bell{width:15%}.kalash{width:22%;top:40%}.lotus-back{width:70%;top:17%}.chowki{left:14%;right:14%}.pdiya .diya{transform:scale(.66);margin:0 -8px}.pdiya{padding-inline:0}.diya-line{left:3%;right:3%}.coins{left:22%}}
+@media (max-width:700px){.checklist{grid-template-columns:1fr 1fr}.stage{aspect-ratio:3/4}.item.thali,.item.flowers{width:26%;top:46%}.item.bell{width:16%;left:6%;top:17%}.kalash{width:22%;top:40%}.lotus-back{width:70%;top:17%}.chowki{left:14%;right:14%}.pdiya .diya{transform:scale(.66);margin:0 -8px}.pdiya{padding-inline:0}.diya-line{left:3%;right:3%}.coins{left:22%}}
 @media (max-width:560px){.share-grid{grid-template-columns:1fr}.dots{display:none}}
 
 .wm{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:calc(6px + env(safe-area-inset-bottom,0px));pointer-events:none;user-select:none;white-space:nowrap;font-family:var(--display);font-style:italic;font-size:13px;letter-spacing:.04em;color:rgba(255,240,205,.72);text-shadow:0 1px 6px rgba(0,0,0,.85);display:flex;align-items:center;gap:8px}
 .wm::before,.wm::after{content:"";width:18px;height:1px;background:linear-gradient(90deg,transparent,rgba(242,196,109,.7))}
 .wm::after{transform:scaleX(-1)}
+
+.puja-cta{display:flex;justify-content:center;margin-top:16px}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.item.did .lbl b::after{content:" ✓";color:#9be37a}
+.pdiya{padding:22px 2px 8px;display:block}
+.checklist{grid-template-columns:repeat(4,1fr)}
+@media (max-width:700px){.checklist{grid-template-columns:1fr 1fr}}
+
+.done-card{max-width:780px;margin:16px auto 0}
+.done-card[hidden]{display:none!important}
+.done-card .done-box{max-width:none}
+.wm{background:rgba(12,5,20,.55);padding:3px 12px;border-radius:999px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 @media (max-width:820px){.days{grid-template-columns:1fr 1fr}.day.main{grid-column:1/-1;order:-1}}
 @media (max-width:700px){.wishes{grid-template-columns:1fr}}
 @media (max-width:480px){
@@ -476,7 +487,7 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
       <div class="sec-head">
         <span class="eyebrow">ਪੂਜਾ ਕਰੋ · Lakshmi puja</span>
         <h2 class="sec-title foil">Do the Diwali puja</h2>
-        <p class="sec-sub" id="pujaHint"><span class="pa">ਹਰ ਚੀਜ਼ ਨੂੰ ਟੈਪ ਕਰੋ: ਪਹਿਲਾਂ ਦੀਵੇ ਜਗਾਓ</span><span>Tap each item. Start by lighting the diyas.</span></p>
+        <p class="sec-sub" id="pujaHint"><span class="pa">ਘੰਟੀ, ਫੁੱਲ ਅਤੇ ਆਰਤੀ ਨੂੰ ਟੈਪ ਕਰੋ</span><span>Tap the bell, flowers and aarti.</span></p>
       </div>
       <div class="stage" id="stage">
         <div class="stage-glow"></div>
@@ -494,25 +505,24 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
         <button class="item bell" data-act="bell" aria-label="Ring the bell"><svg viewBox="0 0 60 100"><defs><linearGradient id="bg1" x1="0" x2="1"><stop offset="0" stop-color="#8a5413"/><stop offset=".4" stop-color="#ffe7a0"/><stop offset="1" stop-color="#a86a1a"/></linearGradient></defs><rect x="26" y="0" width="8" height="26" rx="3" fill="url(#bg1)"/><circle cx="30" cy="8" r="6" fill="none" stroke="#e6ac3a" stroke-width="3"/><path d="M30 26c-14 0-18 14-18 30 0 12-6 18-8 22h52c-2-4-8-10-8-22 0-16-4-30-18-30z" fill="url(#bg1)"/><rect x="2" y="76" width="56" height="6" rx="3" fill="#c98a2e"/><circle class="clap" cx="30" cy="90" r="6" fill="#c98a2e"/></svg><span class="lbl"><b class="pa">ਘੰਟੀ</b>Bell</span></button>
         <button class="item flowers" data-act="flowers" aria-label="Offer flowers"><svg viewBox="0 0 100 70"><ellipse cx="50" cy="50" rx="42" ry="16" fill="#7a4a22"/><path d="M8 44q42 30 84 0v8q-42 30-84 0z" fill="#5a3214"/><g stroke="#4a2810" stroke-width="1.5"><path d="M20 48l6 12M34 52l3 12M50 54v12M66 52l-3 12M80 48l-6 12"/></g><g><circle cx="30" cy="38" r="9" fill="#ff8a00"/><circle cx="48" cy="34" r="10" fill="#ffc21a"/><circle cx="66" cy="38" r="9" fill="#ff8a00"/><circle cx="40" cy="42" r="8" fill="#ff5a2a"/><circle cx="58" cy="42" r="8" fill="#ffd23f"/><circle cx="74" cy="44" r="6" fill="#e0266f"/><circle cx="24" cy="44" r="6" fill="#e0266f"/></g></svg><span class="lbl"><b class="pa">ਫੁੱਲ</b>Flowers</span></button>
         <button class="item thali" data-act="aarti" aria-label="Do the aarti"><span class="flm"></span><svg viewBox="0 0 100 50"><ellipse cx="50" cy="28" rx="46" ry="16" fill="#b97a24"/><ellipse cx="50" cy="25" rx="44" ry="14" fill="#f2c46d"/><ellipse cx="50" cy="25" rx="34" ry="10" fill="#e6ac3a"/><circle cx="30" cy="24" r="5" fill="#c8102e"/><g fill="#fff8e6"><circle cx="66" cy="22" r="1.6"/><circle cx="70" cy="25" r="1.6"/><circle cx="64" cy="27" r="1.6"/><circle cx="72" cy="21" r="1.6"/></g><circle cx="78" cy="28" r="4" fill="#ff8a00"/><ellipse cx="50" cy="22" rx="10" ry="5" fill="#a8491b"/><ellipse cx="50" cy="19" rx="8" ry="2.5" fill="#d9a640"/></svg><span class="lbl"><b class="pa">ਆਰਤੀ</b>Aarti</span></button>
-        <button class="item prasad" data-act="prasad" aria-label="Take prasad"><svg viewBox="0 0 100 60"><ellipse cx="50" cy="44" rx="46" ry="12" fill="#c0c0c8"/><ellipse cx="50" cy="41" rx="42" ry="10" fill="#e8e8ee"/><g fill="#ff9a2a"><circle cx="34" cy="32" r="11"/><circle cx="58" cy="32" r="11"/><circle cx="46" cy="18" r="11"/><circle cx="70" cy="36" r="8"/></g><g fill="#ffcf80"><circle cx="30" cy="28" r="1.6"/><circle cx="38" cy="34" r="1.4"/><circle cx="56" cy="28" r="1.6"/><circle cx="62" cy="34" r="1.4"/><circle cx="44" cy="14" r="1.6"/><circle cx="50" cy="20" r="1.4"/></g></svg><span class="lbl"><b class="pa">ਪ੍ਰਸ਼ਾਦ</b>Prasad</span></button>
         <div class="diya-line" id="pujaDiyas"></div>
         <canvas class="puja-fx" id="pujaFx" aria-hidden="true"></canvas>
-        <div class="done" id="pujaDone" hidden>
+      </div>
+        <div class="done-card" id="pujaDone" hidden>
           <div class="done-box">
             <span class="eyebrow">ਪੂਜਾ ਸੰਪੂਰਨ · Puja complete</span>
             <h3 class="pa">ਤੁਹਾਡੇ ਘਰ ਸਦਾ ਰੌਸ਼ਨੀ, ਸਿਹਤ ਅਤੇ ਬਰਕਤ ਬਣੀ ਰਹੇ</h3>
-            <p>Your puja is complete. May Maa Lakshmi fill your home with light, good health and prosperity all year.</p>
+            <p>Your puja is complete and every diya is lit. May Maa Lakshmi fill your home with light, good health and prosperity all year.</p>
             <button class="btn ghost" id="pujaAgain">Do it again</button>
           </div>
         </div>
-      </div>
       <ol class="checklist" id="checklist">
-        <li data-step="diyas"><i></i><span><b class="pa">ਦੀਵੇ ਜਗਾਓ</b>Light the diyas <em id="diyaCount">0/7</em></span></li>
         <li data-step="bell"><i></i><span><b class="pa">ਘੰਟੀ ਵਜਾਓ</b>Ring the bell</span></li>
         <li data-step="flowers"><i></i><span><b class="pa">ਫੁੱਲ ਚੜ੍ਹਾਓ</b>Offer flowers</span></li>
         <li data-step="aarti"><i></i><span><b class="pa">ਆਰਤੀ ਕਰੋ</b>Do the aarti</span></li>
-        <li data-step="prasad"><i></i><span><b class="pa">ਪ੍ਰਸ਼ਾਦ ਲਓ</b>Take prasad</span></li>
+        <li data-step="diyas"><i></i><span><b class="pa">ਦੀਵੇ ਜਗਣਗੇ</b>Diyas light up</span></li>
       </ol>
+      <div class="puja-cta"><button class="btn" id="pujaAll"><svg viewBox="0 0 24 24"><path d="M12 3c2 3 4 4.5 4 8a4 4 0 0 1-8 0c0-3.5 2-5 4-8z"/><path d="M5 21h14"/></svg><span class="pa">ਪੂਰੀ ਪੂਜਾ ਕਰੋ</span> · Do the full puja</button></div>
     </div>
   </section>
 
@@ -948,10 +958,12 @@ $$('.lanterns').forEach(el => { let h = ''; for (let i = 0; i < 14; i++) { const
 (function puja(){
   const stage = $('#stage'), cv = $('#pujaFx'), g = cv.getContext('2d'); let W = 0, H = 0, D = 1, parts = [], raf = null;
   let t = ''; for (let i = 0; i < 13; i++) { const u = i / 12, top = 6 + (1 - (2 * u - 1) ** 2) * 40; t += `<span class="mg${i % 3 === 1 ? ' y' : ''}" style="left:calc(${u * 100}% - var(--b)/2);top:${top}%"></span>`; } $('#stageToran').innerHTML = t;
-  const line = $('#pujaDiyas'); for (let i = 0; i < 7; i++) line.insertAdjacentHTML('beforeend', `<button class="pdiya" aria-label="Light diya ${i + 1}"><div class="diya"><span class="glow"></span><span class="flame"></span><span class="bowl"></span></div></button>`);
-  const order = ['diyas', 'bell', 'flowers', 'aarti', 'prasad'];
-  const HINT = { diyas: ['ਪਹਿਲਾਂ ਸੱਤੇ ਦੀਵੇ ਜਗਾਓ', 'Tap each of the seven diyas to light it.'], bell: ['ਹੁਣ ਘੰਟੀ ਵਜਾਓ', 'Now ring the bell.'], flowers: ['ਹੁਣ ਫੁੱਲ ਚੜ੍ਹਾਓ', 'Offer the flowers.'], aarti: ['ਆਰਤੀ ਦੀ ਥਾਲੀ ਨੂੰ ਟੈਪ ਕਰੋ', 'Tap the thali to do the aarti.'], prasad: ['ਅੰਤ ਵਿੱਚ ਪ੍ਰਸ਼ਾਦ ਲਓ', 'Finally, take the prasad.'], done: ['ਪੂਜਾ ਸੰਪੂਰਨ ਹੋਈ', 'Your puja is complete.'] };
-  let st = {}, lit = 0, busy = false;
+  const line = $('#pujaDiyas'); for (let i = 0; i < 7; i++) line.insertAdjacentHTML('beforeend', `<span class="pdiya"><div class="diya"><span class="glow"></span><span class="flame"></span><span class="bowl"></span></div></span>`);
+  const order = ['bell', 'flowers', 'aarti'];
+  const HINT = { bell: ['ਘੰਟੀ, ਫੁੱਲ ਅਤੇ ਆਰਤੀ ਨੂੰ ਟੈਪ ਕਰੋ, ਜਾਂ "ਪੂਰੀ ਪੂਜਾ ਕਰੋ" ਦਬਾਓ', 'Tap the bell, flowers and aarti, or press “Do the full puja”.'],
+    flowers: ['ਹੁਣ ਫੁੱਲ ਚੜ੍ਹਾਓ', 'Now offer the flowers.'], aarti: ['ਆਰਤੀ ਦੀ ਥਾਲੀ ਨੂੰ ਟੈਪ ਕਰੋ', 'Tap the thali to do the aarti.'],
+    done: ['ਪੂਜਾ ਸੰਪੂਰਨ ਹੋਈ, ਦੀਵੇ ਜਗ ਰਹੇ ਹਨ', 'Puja complete. The diyas are lighting up.'] };
+  let st = {}, busy = false, auto = false, finished = false;
   function size(){ D = Math.min(2, devicePixelRatio || 1); W = stage.clientWidth; H = stage.clientHeight; cv.width = W * D; cv.height = H * D; }
   function kick(){ if (!raf) raf = requestAnimationFrame(loop); }
   function loop(){
@@ -971,27 +983,36 @@ $$('.lanterns').forEach(el => { let h = ''; for (let i = 0; i < 14; i++) { const
   function sparkle(x, y, n, c = '#ffe7a0'){ size(); for (let i = 0; i < n; i++) { const a = R(0, TAU), v = R(1, 4); parts.push({ k: 'spark', x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: .03, sway: 0, ph: 0, rot: 0, vr: 0, r: R(1.2, 2.6), c, life: R(25, 45) }); } kick(); }
   function coins(n){ size(); for (let i = 0; i < n; i++) parts.push({ k: 'coin', x: R(.1, .9) * W, y: R(-.4, 0) * H, vx: R(-.6, .6), vy: R(1, 3), g: .05, sway: 0, ph: 0, rot: R(0, 6), vr: R(-.15, .15), r: R(5, 8), life: R(200, 280), floor: R(.8, .95) * H }); kick(); }
   const rel = el => { const a = el.getBoundingClientRect(), b = stage.getBoundingClientRect(); return { x: a.left - b.left + a.width / 2, y: a.top - b.top + a.height / 2 }; };
-  function next(){ return order.find(k => !st[k]) || 'done'; }
+  const next = () => order.find(k => !st[k]) || 'done';
+  const fullBtn = $('#pujaAll');
   function refresh(){
     const n = next(); const [pa, en] = HINT[n];
     $('#pujaHint').innerHTML = `<span class="pa">${pa}</span><span>${en}</span>`;
-    stage.querySelectorAll('.item').forEach(b => b.classList.toggle('next', b.dataset.act === n));
-    line.classList.toggle('next', n === 'diyas');
-    $$('#checklist li').forEach(li => li.classList.toggle('ok', !!st[li.dataset.step]));
-    $('#diyaCount').textContent = `${lit}/7`;
-    stage.querySelector('.stage-glow').style.opacity = .3 + lit / 7 * .7;
-    if (n === 'done' && !st.shown) { st.shown = true; setTimeout(() => { $('#pujaDone').hidden = false; coins(70); petals(90); sfx.bell(); }, 700); }
+    stage.querySelectorAll('.item').forEach(b => { b.classList.toggle('next', !auto && b.dataset.act === n); b.classList.toggle('did', !!st[b.dataset.act]); });
+    $$('#checklist li').forEach(li => li.classList.toggle('ok', li.dataset.step === 'diyas' ? finished : !!st[li.dataset.step]));
+    fullBtn.disabled = auto || n === 'done';
+    if (n === 'done' && !finished && !busy) finish();
   }
-  line.querySelectorAll('.pdiya').forEach(b => b.onclick = () => { if (b.classList.contains('lit')) return; sfx.init(); b.classList.add('lit'); lit++; sfx.crackle(.22, { vol: .35, hp: 3000, fadeIn: .01, fadeOut: .1 }); const p = rel(b); sparkle(p.x, p.y - 10, 14); if (lit === 7) st.diyas = 1; refresh(); });
-  stage.querySelectorAll('.item').forEach(b => b.onclick = () => {
-    sfx.init(); const act = b.dataset.act; if (busy) return;
-    if (act === 'bell') { b.classList.remove('ring'); void b.offsetWidth; b.classList.add('ring'); sfx.bell(); st.bell = 1; }
-    if (act === 'flowers') { petals(150); st.flowers = 1; }
-    if (act === 'aarti') { busy = true; b.classList.add('doing'); sfx.bell(); setTimeout(sfx.bell, 1400); setTimeout(sfx.bell, 2800); setTimeout(() => { b.classList.remove('doing'); busy = false; st.aarti = 1; refresh(); }, 4300); return; }
-    if (act === 'prasad') { const p = rel(b); sparkle(p.x, p.y, 40, '#ffd27a'); st.prasad = 1; }
-    refresh();
-  });
-  $('#pujaAgain').onclick = () => { st = {}; lit = 0; line.querySelectorAll('.pdiya').forEach(b => b.classList.remove('lit')); $('#pujaDone').hidden = true; parts = []; refresh(); };
+  function act(a){
+    if (a === 'bell') { const b = stage.querySelector('.bell'); b.classList.remove('ring'); void b.offsetWidth; b.classList.add('ring'); sfx.bell(); st.bell = 1; refresh(); return Promise.resolve(); }
+    if (a === 'flowers') { petals(150); st.flowers = 1; refresh(); return Promise.resolve(); }
+    if (a === 'aarti') { busy = true; const b = stage.querySelector('.thali'); b.classList.add('doing'); sfx.bell(); setTimeout(sfx.bell, 1400); setTimeout(sfx.bell, 2800);
+      return new Promise(res => setTimeout(() => { b.classList.remove('doing'); busy = false; st.aarti = 1; refresh(); res(); }, 4300)); }
+    return Promise.resolve();
+  }
+  function finish(){
+    finished = true; const ds = [...line.querySelectorAll('.pdiya')];
+    ds.forEach((d, i) => setTimeout(() => { d.classList.add('lit'); const p = rel(d); sparkle(p.x, p.y - 12, 16); sfx.crackle(.25, { vol: .3, hp: 3000, fadeIn: .01, fadeOut: .1 });
+      stage.querySelector('.stage-glow').style.opacity = .3 + (i + 1) / ds.length * .7;
+      if (i === ds.length - 1) { $$('#checklist li').forEach(li => li.classList.add('ok')); setTimeout(() => { $('#pujaDone').hidden = false; coins(70); petals(90); sfx.bell(); }, 900); } }, 400 + i * 380));
+  }
+  stage.querySelectorAll('.item').forEach(b => b.onclick = () => { sfx.init(); if (busy || auto || finished) return; act(b.dataset.act); });
+  fullBtn.onclick = async () => {
+    sfx.init(); if (auto || finished) return; auto = true; refresh();
+    for (const a of order) { if (st[a]) continue; while (busy) await new Promise(r => setTimeout(r, 200)); await act(a); await new Promise(r => setTimeout(r, a === 'aarti' ? 200 : 1300)); }
+    auto = false; refresh();
+  };
+  $('#pujaAgain').onclick = () => { st = {}; finished = false; auto = false; line.querySelectorAll('.pdiya').forEach(b => b.classList.remove('lit')); stage.querySelector('.stage-glow').style.opacity = .3; $('#pujaDone').hidden = true; parts = []; refresh(); };
   addEventListener('resize', size); size(); refresh();
 })();
 
