@@ -530,12 +530,12 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
   <canvas id="sky" aria-label="Courtyard at night. Place crackers on the ground and light them with the diya."></canvas>
   <div class="topbar">
     <div class="l"><button class="chip round" id="help" aria-label="How to light the crackers">?</button></div>
-    <div class="ytitle"><div class="pa">ਵਿਹੜਾ</div><small>The courtyard</small></div>
+    <div class="ytitle"><div class="pa">ਪਟਾਖੇ ਚਲਾਓ</div><small>Light the crackers</small></div>
     <div class="r"></div>
   </div>
   <div class="guide" id="guide"><span class="pa"></span><span class="en"></span></div>
   <div class="tray"><div class="tray-inner" id="tray"></div></div>
-  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
     <div class="box">
       <button class="sheet-x" id="sheetX" aria-label="Close">×</button>
       <div class="eyebrow">Diwali · ਪਟਾਖਿਆਂ ਦਾ ਵਿਹੜਾ</div>
@@ -548,7 +548,7 @@ button:focus-visible,[role=button]:focus-visible{outline:2px solid var(--gold);o
         <li><span class="n">੪</span><div><span class="pa">ਬੱਤੀ ਸੁਲਗਣ ਤੋਂ ਬਾਅਦ ਪਿੱਛੇ ਹਟੋ ਅਤੇ ਨਜ਼ਾਰਾ ਮਾਣੋ! ਸਾਰੇ ਇਕੱਠੇ ਚਲਾਉਣ ਲਈ "ਸਾਰੇ ਚਲਾਓ" ਦਬਾਓ।</span><span class="en">Step back and enjoy the show. Press "Light all" to fire everything at once.</span></div></li>
       </ol>
       <div class="safety"><span class="pa">ਅਸਲੀ ਪਟਾਖੇ ਚਲਾਉਂਦੇ ਸਮੇਂ ਕੋਲ ਪਾਣੀ ਦੀ ਬਾਲਟੀ ਰੱਖੋ, ਸੂਤੀ ਕੱਪੜੇ ਪਾਓ ਅਤੇ ਬੱਚਿਆਂ ਨੂੰ ਵੱਡਿਆਂ ਦੀ ਨਿਗਰਾਨੀ ਵਿੱਚ ਹੀ ਪਟਾਖੇ ਚਲਾਉਣ ਦਿਓ।</span><span class="en">With real crackers, keep a bucket of water close, wear cotton clothes, and let children light them only with an adult beside them.</span></div>
-      <button class="btn" id="sheetGo"><span class="pa">ਸ਼ੁਰੂ ਕਰੋ</span> · Let's start</button>
+      <button class="btn" id="sheetGo"><span class="pa">ਠੀਕ ਹੈ</span> · Got it</button>
     </div>
   </div>
 </section>
@@ -1552,7 +1552,6 @@ const yard = (() => {
   $('#sheetGo').onclick = closeSheet; $('#sheetX').onclick = closeSheet;
   sheet.addEventListener('click', e => { if (e.target === sheet) closeSheet(); });
   $('#help').onclick = () => { sheet.hidden = false; };
-  if (store.get('diwali-howto')) sheet.hidden = true;
 
   function update(dt, time){
     for (let i = crackers.length - 1; i >= 0; i--) {
